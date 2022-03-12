@@ -2,14 +2,22 @@ const path = require("path");
 
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
-const { connect, createTable, addAccount, getAllAccounts } = require("./db");
+const {
+  connect,
+  createTable,
+  addAccount,
+  getAllAccounts,
+  createMasterPassword,
+  authenticate,
+  checkIfMasterPasswordExists,
+} = require("./db");
 const { wrap } = require("./utils");
 
 const createWindow = () => {
   const win = new BrowserWindow({
     minWidth: 1280,
     minHeight: 720,
-    title: "Password Manager",
+    title: "Vault",
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.js"),
@@ -35,7 +43,10 @@ app.whenReady().then(async () => {
     await createTable();
     createWindow();
 
-    // Renderer-to-main process communication
+    // Renderer-to-main two-way process communication
+    ipcMain.handle("check-master-password", wrap(checkIfMasterPasswordExists));
+    ipcMain.handle("create-master-password", wrap(createMasterPassword));
+    ipcMain.handle("authenticate", wrap(authenticate));
     ipcMain.handle("saveAccount", wrap(addAccount));
     ipcMain.handle("getAllAccounts", wrap(getAllAccounts));
   } catch (err) {

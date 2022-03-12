@@ -1,6 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
-const { encrypt } = require("./crypto");
+const { hash } = require("./crypto");
 
 let db;
 
@@ -35,6 +35,66 @@ module.exports.createTable = () => {
   });
 };
 
+module.exports.checkIfMasterPasswordExists = () => {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT * FROM MASTER_PASSWORD`, (err, row) => {
+      if (err) {
+        resolve(false);
+      } else {
+        if (!row) {
+          resolve(false);
+        } else {
+          resolve(true);
+        }
+      }
+    });
+  });
+};
+
+module.exports.createMasterPassword = password => {
+  return new Promise((resolve, reject) => {
+    db.run(
+      `CREATE TABLE IF NOT EXISTS MASTER_PASSWORD (password TEXT)`,
+      err => {
+        if (err) {
+          reject(false);
+        } else {
+          db.run(
+            `INSERT INTO MASTER_PASSWORD (password) VALUES (?)`,
+            [hash(password)],
+            err => {
+              if (err) {
+                reject(false);
+              } else {
+                resolve(true);
+              }
+            }
+          );
+        }
+      }
+    );
+  });
+};
+
+module.exports.authenticate = password => {
+  return new Promise((resolve, reject) => {
+    db.get(
+      `SELECT * FROM MASTER_PASSWORD WHERE password = ?`,
+      [hash(password)],
+      (err, row) => {
+        if (err) {
+          reject(false);
+        } else {
+          if (!row) {
+            return resolve(false);
+          }
+          resolve(true);
+        }
+      }
+    );
+  });
+};
+
 module.exports.getAllAccounts = () => {
   return new Promise((res, rej) => {
     db.all(`SELECT * FROM accounts`, (err, rows) => {
@@ -51,7 +111,7 @@ module.exports.addAccount = data => {
   return new Promise((resolve, reject) => {
     db.run(
       `INSERT INTO accounts (name, email, password, url) VALUES (?, ?, ?, ?)`,
-      [data.name, encrypt(data.email), encrypt(data.password), data.url],
+      [data.name, data.email, data.password, data.url],
       err => {
         if (err) {
           reject(err);

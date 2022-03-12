@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -12,17 +12,34 @@ import { useNavigate } from "react-router";
 
 const AuthScreen = () => {
   const navigate = useNavigate();
+  const [masterPasswordExists, setMasterPasswordExists] = useState(false);
   const [mainPass, setMainPass] = useState("");
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState(null);
 
-  const onUnlock = () => {
-    if (mainPass === "password") {
-      navigate("/dashboard/accounts");
+  const handleClick = async () => {
+    if (masterPasswordExists) {
+      const authRes = await window.db.authenticate(mainPass);
+      if (authRes) {
+        navigate("/dashboard/accounts");
+      } else {
+        setError("Incorrect password. Please try again.");
+      }
     } else {
-      setError("Incorrect password, please try again.");
+      const pass = await window.db.createMasterPassword(mainPass);
+      if (pass) {
+        setMasterPasswordExists(true);
+      } else {
+        setError("Error creating master password. Please try again.");
+      }
     }
   };
+
+  useEffect(() => {
+    window.db.checkMasterPassword().then(res => {
+      setMasterPasswordExists(res);
+    });
+  }, []);
 
   return (
     <Stack
@@ -41,9 +58,11 @@ const AuthScreen = () => {
         }}
       />
       <Typography variant="h6">
-        Vault is locked. Enter your main password below.
+        {masterPasswordExists
+          ? "Vault is locked. Enter your main password below."
+          : "Welcome to your new Vault! Create your master password below."}
       </Typography>
-      <Stack spacing={2}>
+      <Stack spacing={2} maxWidth="600px">
         <TextField
           label="Password"
           type={visible ? "text" : "password"}
@@ -72,11 +91,22 @@ const AuthScreen = () => {
           color="primary"
           size="large"
           disabled={mainPass.trim() === ""}
-          onClick={onUnlock}
+          onClick={handleClick}
           fullWidth
         >
-          Unlock
+          {masterPasswordExists ? "Unlock" : "Create"}
         </Button>
+        {!masterPasswordExists && (
+          <Stack alignItems="center">
+            <Typography variant="body2" color="textSecondary">
+              You won't be able to access your vault if you forgets your master
+              password.
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              So remember it!
+            </Typography>
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );
