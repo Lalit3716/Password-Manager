@@ -2,13 +2,13 @@ const path = require("path");
 
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
 const isDev = require("electron-is-dev");
-const { connect, createTable, add, getAllAccounts } = require("./db");
+const { connect, createTable, addAccount, getAllAccounts } = require("./db");
 const { wrap } = require("./utils");
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    minWidth: 1280,
+    minHeight: 720,
     title: "Password Manager",
     webPreferences: {
       nodeIntegration: true,
@@ -36,7 +36,7 @@ app.whenReady().then(async () => {
     createWindow();
 
     // Renderer-to-main process communication
-    ipcMain.handle("add", wrap(add));
+    ipcMain.handle("saveAccount", wrap(addAccount));
     ipcMain.handle("getAllAccounts", wrap(getAllAccounts));
   } catch (err) {
     dialog.showErrorBox("Error", err.message);

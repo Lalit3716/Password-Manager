@@ -1,5 +1,6 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
+const { encrypt } = require("./crypto");
 
 let db;
 
@@ -46,11 +47,11 @@ module.exports.getAllAccounts = () => {
   });
 };
 
-module.exports.add = data => {
+module.exports.addAccount = data => {
   return new Promise((resolve, reject) => {
     db.run(
       `INSERT INTO accounts (name, email, password, url) VALUES (?, ?, ?, ?)`,
-      [data.name, data.email, data.password, data.url],
+      [data.name, encrypt(data.email), encrypt(data.password), data.url],
       err => {
         if (err) {
           reject(err);
