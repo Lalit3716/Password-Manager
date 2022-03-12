@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   Avatar,
   Button,
@@ -15,7 +16,6 @@ const AuthScreen = () => {
   const [masterPasswordExists, setMasterPasswordExists] = useState(false);
   const [mainPass, setMainPass] = useState("");
   const [visible, setVisible] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleClick = async () => {
     if (masterPasswordExists) {
@@ -23,14 +23,14 @@ const AuthScreen = () => {
       if (authRes) {
         navigate("/dashboard/accounts");
       } else {
-        setError("Incorrect password. Please try again.");
+        toast.error("Invalid password. Please try again.");
       }
     } else {
       const pass = await window.db.createMasterPassword(mainPass);
       if (pass) {
         setMasterPasswordExists(true);
       } else {
-        setError("Error creating master password. Please try again.");
+        toast.error("Could not create master password. Please try again.");
       }
     }
   };
@@ -67,12 +67,7 @@ const AuthScreen = () => {
           label="Password"
           type={visible ? "text" : "password"}
           value={mainPass}
-          onChange={e => {
-            if (error) {
-              setError(null);
-            }
-            setMainPass(e.target.value);
-          }}
+          onChange={e => setMainPass(e.target.value)}
           InputProps={{
             endAdornment: (
               <IconButton onClick={() => setVisible(!visible)}>
@@ -81,11 +76,6 @@ const AuthScreen = () => {
             ),
           }}
         />
-        {error && (
-          <Typography variant="body2" color="error">
-            {error}
-          </Typography>
-        )}
         <Button
           variant="contained"
           color="primary"

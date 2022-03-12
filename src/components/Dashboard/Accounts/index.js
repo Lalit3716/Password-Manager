@@ -1,9 +1,9 @@
 import React from "react";
-import useAccounts from "../../hooks/useAccounts";
+import useAccounts from "../../../hooks/useAccounts";
 
 import { Box } from "@mui/system";
 import { Typography } from "@mui/material";
-import NewButton from "../Buttons/NewButton";
+import NewButton from "../../Buttons/NewButton";
 
 const Accounts = () => {
   const { accounts, loading } = useAccounts();

@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
-import NewButton from "../Buttons/NewButton";
+import NewButton from "../../Buttons/NewButton";
 
 const Websites = () => {
   return (
