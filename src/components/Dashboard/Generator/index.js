@@ -9,7 +9,7 @@ import {
   Button,
   TextField,
 } from "@mui/material";
-import generator from "../../../utils/password-gen";
+import { generate } from "../../../utils/passwords";
 
 const StyledTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -25,21 +25,26 @@ const Generator = () => {
   const onGenPassword = () => {
     if (isNaN(options.length)) {
       toast.error("Please enter a number", {
+        pauseOnHover: false,
         position: toast.POSITION.TOP_CENTER,
       });
       return;
     }
 
     if (options.length > 20 || options.length < 6) {
-      toast.error("Please keep length between 6 and 20");
+      toast.error("Please keep length between 6 and 20", {
+        pauseOnHover: false,
+        position: toast.POSITION.TOP_CENTER,
+      });
       return;
     }
 
-    const pass = generator(options);
+    const pass = generate(options);
     setGenPassword(pass);
     if (!pass) {
       toast.error("Please select at least one option", {
         pauseOnHover: false,
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
