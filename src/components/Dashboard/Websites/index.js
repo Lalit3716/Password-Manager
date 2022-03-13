@@ -6,7 +6,9 @@ const Websites = () => {
   return (
     <Box height="100%" width="100%">
       <NewButton />
-      <Typography variant="h4">Websites</Typography>
+      <Typography variant="h6" mt={2}>
+        No websites found
+      </Typography>
     </Box>
   );
 };

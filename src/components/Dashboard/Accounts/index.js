@@ -12,7 +12,9 @@ const Accounts = () => {
     <Box width="100%" height="100%">
       <NewButton />
       {accounts.length === 0 && !loading && (
-        <Typography variant="h6">No accounts found</Typography>
+        <Typography variant="h6" mt={2}>
+          No accounts found
+        </Typography>
       )}
     </Box>
   );
