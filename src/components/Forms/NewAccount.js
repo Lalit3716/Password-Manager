@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 import {
   Box,
   Typography,
@@ -15,8 +16,11 @@ import {
   getColorFromStrength,
   generate,
 } from "../../utils/passwords";
+import authContext from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
-const NewAccountForm = () => {
+const NewAccountForm = ({ onSuccess }) => {
+  const { mainPass } = useContext(authContext);
   const [visible, setVisible] = useState(false);
   const [strength, setStrength] = useState("Weak");
   const {
@@ -27,8 +31,18 @@ const NewAccountForm = () => {
     setValue,
   } = useForm();
 
-  const onSubmit = formData => {
-    console.log(formData);
+  const onSubmit = async formData => {
+    const id = uuid();
+    const password = window.electronCrypto.encrypt(formData.password, mainPass);
+    const email = window.electronCrypto.encrypt(formData.email, mainPass);
+    try {
+      const encryptedData = { ...formData, password, email, id };
+      await window.db.addAccount(encryptedData);
+      toast.success("Account added successfully");
+      onSuccess({ ...formData, id });
+    } catch (e) {
+      toast.error(e.message);
+    }
   };
 
   const onGenerate = () => {

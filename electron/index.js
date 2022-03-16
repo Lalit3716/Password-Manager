@@ -10,6 +10,8 @@ const {
   createMasterPassword,
   authenticate,
   checkIfMasterPasswordExists,
+  removeAccount,
+  updateAccount,
 } = require("./db");
 const { wrap } = require("./utils");
 
@@ -49,6 +51,8 @@ app.whenReady().then(async () => {
     ipcMain.handle("authenticate", wrap(authenticate));
     ipcMain.handle("saveAccount", wrap(addAccount));
     ipcMain.handle("getAllAccounts", wrap(getAllAccounts));
+    ipcMain.handle("deleteAccount", wrap(removeAccount));
+    ipcMain.handle("updateAccount", wrap(updateAccount));
   } catch (err) {
     dialog.showErrorBox("Error", err.message);
     app.quit();

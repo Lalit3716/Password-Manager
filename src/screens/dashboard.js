@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router";
 
 import { Box } from "@mui/material";
-import SideNav from "../components/SideNav";
+import SideNav from "../components/SideNav/SideNav";
 import LogoutButton from "../components/Buttons/LogoutButton";
 
 const Dashboard = () => {

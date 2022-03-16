@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import authContext from "../context/AuthContext";
 import { toast } from "react-toastify";
 import {
   Avatar,
@@ -12,6 +13,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 
 const AuthScreen = () => {
+  const { login } = useContext(authContext);
   const navigate = useNavigate();
   const [masterPasswordExists, setMasterPasswordExists] = useState(false);
   const [mainPass, setMainPass] = useState("");
@@ -21,6 +23,7 @@ const AuthScreen = () => {
     if (masterPasswordExists) {
       const authRes = await window.db.authenticate(mainPass);
       if (authRes) {
+        login(mainPass);
         navigate("/dashboard/accounts");
       } else {
         toast.error("Invalid password. Please try again.");
