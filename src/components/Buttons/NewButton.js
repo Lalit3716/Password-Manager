@@ -13,20 +13,15 @@ import { Add } from "@mui/icons-material";
 
 import NewAccountForm from "../Forms/NewAccount";
 
-const NewButton = ({ onSuccess }) => {
+const NewButton = () => {
   const [open, setOpen] = useState(false);
-
-  const onFormSuccess = account => {
-    setOpen(false);
-    onSuccess(account);
-  };
 
   return (
     <>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>New Account</DialogTitle>
         <DialogContent>
-          <NewAccountForm onSuccess={onFormSuccess} />
+          <NewAccountForm close={() => setOpen(false)} />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>

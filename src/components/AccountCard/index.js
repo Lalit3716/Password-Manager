@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   generate,
   checkStrength,
@@ -23,21 +23,20 @@ import {
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import authContext from "../../context/AuthContext";
+import accountsContext from "../../context/AccountsContext";
 
-const AccountCard = ({ account, onDelete, onUpdate }) => {
-  const [editData, setEditData] = useState({
-    email: account.email,
-    password: account.password,
-    name: account.name,
-  });
+const AccountCard = ({ account }) => {
+  const [editData, setEditData] = useState({});
   const { mainPass } = useContext(authContext);
+  const { refetch } = useContext(accountsContext);
   const [visible, setVisible] = useState(false);
   const [editing, setEditing] = useState(false);
+
   const handleDelete = async () => {
     try {
       await window.db.deleteAccount(account.id);
-      onDelete(account.id);
       toast.success("Account deleted successfully");
+      refetch();
     } catch (e) {
       toast.error(e.message);
     }
@@ -83,20 +82,20 @@ const AccountCard = ({ account, onDelete, onUpdate }) => {
       await window.db.updateAccount(encryptedData);
       toast.success("Account updated successfully");
       setEditing(false);
-      onUpdate({ ...account, ...editData });
+      refetch();
     } catch (e) {
       toast.error(e.message);
     }
   };
 
+  useEffect(() => {
+    setEditData({ ...account });
+    setEditing(false);
+    setVisible(false);
+  }, [account]);
+
   return (
-    <Card
-      elevation={5}
-      sx={{
-        width: "300px",
-        m: 1,
-      }}
-    >
+    <Card elevation={0}>
       <CardContent>
         <Stack>
           {!editing ? (

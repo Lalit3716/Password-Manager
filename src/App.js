@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./context/AuthContext";
 import Accounts from "./components/Dashboard/Accounts";
 import Generator from "./components/Dashboard/Generator";
-import Websites from "./components/Dashboard/Websites";
 import AuthScreen from "./screens/auth";
 import Dashboard from "./screens/dashboard";
 import AuthGuard from "./components/Guard";
@@ -20,7 +19,6 @@ const App = () => {
         <Route element={<AuthGuard />}>
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="accounts" element={<Accounts />} />
-            <Route path="websites" element={<Websites />} />
             <Route path="generator" element={<Generator />} />
           </Route>
         </Route>

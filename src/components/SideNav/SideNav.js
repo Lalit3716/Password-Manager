@@ -9,8 +9,8 @@ import {
   Avatar,
   ListItemButton,
 } from "@mui/material";
-import { Key, Language, Password } from "@mui/icons-material";
-import { blue, green, red } from "@mui/material/colors";
+import { Key, Password } from "@mui/icons-material";
+import { green, red } from "@mui/material/colors";
 
 const SideNav = () => {
   const navigate = useNavigate();
@@ -29,20 +29,6 @@ const SideNav = () => {
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary="Accounts" secondary="All accounts" />
-        </ListItemButton>
-        <ListItemButton
-          onClick={() => navigate("websites")}
-          selected={pathname.includes("websites")}
-        >
-          <ListItemAvatar>
-            <Avatar sx={{ bgcolor: blue[700] }}>
-              <Language />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary="Websites"
-            secondary="Accounts grouped by websites"
-          />
         </ListItemButton>
         <ListItemButton
           onClick={() => navigate("generator")}

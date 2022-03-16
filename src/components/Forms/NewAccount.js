@@ -18,18 +18,20 @@ import {
 } from "../../utils/passwords";
 import authContext from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import accountsContext from "../../context/AccountsContext";
 
-const NewAccountForm = ({ onSuccess }) => {
+const NewAccountForm = ({ close }) => {
   const { mainPass } = useContext(authContext);
   const [visible, setVisible] = useState(false);
   const [strength, setStrength] = useState("Weak");
   const {
     control,
     handleSubmit,
-    formState: { errors, touchedFields },
+    formState: { errors },
     watch,
     setValue,
   } = useForm();
+  const { refetch } = useContext(accountsContext);
 
   const onSubmit = async formData => {
     const id = uuid();
@@ -39,14 +41,15 @@ const NewAccountForm = ({ onSuccess }) => {
       const encryptedData = { ...formData, password, email, id };
       await window.db.addAccount(encryptedData);
       toast.success("Account added successfully");
-      onSuccess({ ...formData, id });
+      refetch();
+      close();
     } catch (e) {
       toast.error(e.message);
     }
   };
 
   const onGenerate = () => {
-    setValue("password", generate({ length: 8 }));
+    setValue("password", generate({ length: 12 }));
   };
 
   useEffect(() => {
@@ -78,6 +81,9 @@ const NewAccountForm = ({ onSuccess }) => {
               />
             )}
           />
+          <Typography variant="caption" color="primary">
+            * Accounts with same name will automatically be grouped
+          </Typography>
         </Stack>
         <Stack>
           <Typography variant="h6">Account Email/Username</Typography>
@@ -118,14 +124,14 @@ const NewAccountForm = ({ onSuccess }) => {
               />
             )}
           />
-          {touchedFields.password && (
+          {
             <Typography
               variant="caption"
               sx={{ color: getColorFromStrength(strength) }}
             >
               {`Password strength: ${strength}`}
             </Typography>
-          )}
+          }
           <Typography
             variant="caption"
             sx={{
