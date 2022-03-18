@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 import authContext from "../../context/AuthContext";
 import accountsContext from "../../context/AccountsContext";
 
-const AccountCard = ({ account }) => {
+const AccountCard = ({ account, index }) => {
   const [editData, setEditData] = useState({});
   const { mainPass } = useContext(authContext);
   const { refetch } = useContext(accountsContext);
@@ -91,7 +91,6 @@ const AccountCard = ({ account }) => {
   useEffect(() => {
     setEditData({ ...account });
     setEditing(false);
-    setVisible(false);
   }, [account]);
 
   return (

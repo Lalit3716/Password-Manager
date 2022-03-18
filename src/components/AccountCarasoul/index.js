@@ -4,26 +4,18 @@ import AccountCard from "../AccountCard";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 const AccountCarasoul = props => {
-  const { accounts, update, delete: deleteAccount } = props;
+  const { accounts } = props;
   const [current, setCurrent] = useState(0);
 
   const handleNext = () => setCurrent(current + 1);
   const handlePrev = () => setCurrent(current - 1);
 
-  const handleDelete = () => {
-    console.log(current);
-    if (current === 0) {
-      deleteAccount(accounts[current].id);
-      handleNext();
-      console.log(current);
-    } else if (current === accounts.length - 1) {
-      deleteAccount(accounts[current].id);
-      handlePrev();
-      console.log(current);
-    } else {
-      deleteAccount(accounts[current].id);
-    }
-  };
+  if (!accounts[current]) {
+    if (current === 0) setCurrent(current + 1);
+    else setCurrent(current - 1);
+  }
+
+  console.log(accounts[current]);
 
   return (
     <Card
@@ -43,11 +35,7 @@ const AccountCarasoul = props => {
         </IconButton>
       </Box>
       {accounts[current] && (
-        <AccountCard
-          account={accounts[current]}
-          onUpdate={update}
-          onDelete={handleDelete}
-        />
+        <AccountCard account={accounts[current]} index={current} />
       )}
       <Box
         sx={{
