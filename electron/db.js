@@ -23,7 +23,7 @@ module.exports.connect = app => {
 module.exports.createTable = () => {
   return new Promise((resolve, reject) => {
     db.run(
-      `CREATE TABLE IF NOT EXISTS accounts (id TEXT PRIMARY KEY, name TEXT, email TEXT, password TEXT, url TEXT)`,
+      `CREATE TABLE IF NOT EXISTS accounts (id TEXT PRIMARY KEY, name TEXT, subName TEXT, email TEXT, password TEXT, url TEXT)`,
       err => {
         if (err) {
           reject(err);
@@ -110,8 +110,8 @@ module.exports.getAllAccounts = () => {
 module.exports.addAccount = data => {
   return new Promise((resolve, reject) => {
     db.run(
-      `INSERT INTO accounts (id, name, email, password, url) VALUES (?, ?, ?, ?, ?)`,
-      [data.id, data.name, data.email, data.password, data.url],
+      `INSERT INTO accounts (id, name, subName, email, password, url) VALUES (?, ?, ?, ?, ?, ?)`,
+      [data.id, data.name, data.subName, data.email, data.password, data.url],
       err => {
         if (err) {
           reject(err);
@@ -138,8 +138,8 @@ module.exports.removeAccount = id => {
 module.exports.updateAccount = data => {
   return new Promise((resolve, reject) => {
     db.run(
-      `UPDATE accounts SET name = ?, email = ?, password = ?, url = ? WHERE id = ?`,
-      [data.name, data.email, data.password, data.url, data.id],
+      `UPDATE accounts SET name = ?, subName = ?, email = ?, password = ?, url = ? WHERE id = ?`,
+      [data.name, data.subName, data.email, data.password, data.url, data.id],
       err => {
         if (err) {
           reject(err);
