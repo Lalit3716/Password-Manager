@@ -76,6 +76,7 @@ const NewAccountForm = ({ close }) => {
             render={({ field }) => (
               <TextField
                 {...field}
+                placeholder="e.g. Google"
                 error={Boolean(errors.name)}
                 helperText={errors.name && errors.name.message}
               />
@@ -84,6 +85,17 @@ const NewAccountForm = ({ close }) => {
           <Typography variant="caption" color="primary">
             * Accounts with same name will automatically be grouped
           </Typography>
+        </Stack>
+        <Stack>
+          <Typography variant="h6">Account Secondary Name</Typography>
+          <Controller
+            control={control}
+            name="subName"
+            defaultValue=""
+            render={({ field }) => (
+              <TextField {...field} placeholder="e.g. Jack's account" />
+            )}
+          />
         </Stack>
         <Stack>
           <Typography variant="h6">Account Email/Username</Typography>
@@ -95,6 +107,7 @@ const NewAccountForm = ({ close }) => {
             render={({ field }) => (
               <TextField
                 {...field}
+                placeholder="e.g. jack123@gmail.com"
                 error={Boolean(errors.email)}
                 helperText={errors.email && errors.email.message}
               />

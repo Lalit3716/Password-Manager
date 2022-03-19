@@ -98,12 +98,25 @@ const AccountCard = ({ account, index }) => {
       <CardContent>
         <Stack>
           {!editing ? (
-            <Typography variant="h6">{account.name}</Typography>
+            <Typography variant="h5">{account.name}</Typography>
           ) : (
             <TextField
               variant="standard"
               value={editData.name}
               onChange={e => setEditData({ ...editData, name: e.target.value })}
+            />
+          )}
+          {!editing ? (
+            <Typography variant="h6" color="textSecondary">
+              {account.subName}
+            </Typography>
+          ) : (
+            <TextField
+              variant="standard"
+              value={editData.subName}
+              onChange={e =>
+                setEditData({ ...editData, subName: e.target.value })
+              }
             />
           )}
           {!editing ? (
