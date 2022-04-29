@@ -76,6 +76,18 @@ module.exports.createMasterPassword = password => {
   });
 };
 
+module.exports.updateMasterPassword = password => {
+  return new Promise((resolve, reject) => {
+    db.run(`UPDATE MASTER_PASSWORD SET password = ?`, [hash(password)], err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
 module.exports.authenticate = password => {
   return new Promise((resolve, reject) => {
     db.get(
@@ -148,5 +160,17 @@ module.exports.updateAccount = data => {
         }
       }
     );
+  });
+};
+
+module.exports.deleteVault = () => {
+  return new Promise((resolve, reject) => {
+    db.run(`DROP TABLE accounts`, err => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
   });
 };

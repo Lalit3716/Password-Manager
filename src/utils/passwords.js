@@ -46,8 +46,4 @@ const getColorFromStrength = strength => {
   }
 };
 
-module.exports = {
-  generate,
-  checkStrength,
-  getColorFromStrength,
-};
+export { generate, checkStrength, getColorFromStrength };

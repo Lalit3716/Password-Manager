@@ -12,8 +12,9 @@ const {
   checkIfMasterPasswordExists,
   removeAccount,
   updateAccount,
+  deleteVault,
 } = require("./db");
-const { wrap } = require("./utils");
+const { wrap: catchError } = require("./utils");
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -39,6 +40,21 @@ const createWindow = () => {
   }
 };
 
+const addHandlers = () => {
+  ipcMain.handle(
+    "check-master-password",
+    catchError(checkIfMasterPasswordExists)
+  );
+  ipcMain.handle("create-master-password", catchError(createMasterPassword));
+  ipcMain.handle("authenticate", catchError(authenticate));
+  ipcMain.handle("saveAccount", catchError(addAccount));
+  ipcMain.handle("getAllAccounts", catchError(getAllAccounts));
+  ipcMain.handle("deleteAccount", catchError(removeAccount));
+  ipcMain.handle("updateAccount", catchError(updateAccount));
+  ipcMain.handle("deleteVault", catchError(deleteVault));
+  ipcMain.handle("createVault", catchError(createTable));
+};
+
 app.whenReady().then(async () => {
   try {
     await connect(app);
@@ -46,13 +62,7 @@ app.whenReady().then(async () => {
     createWindow();
 
     // Renderer-to-main two-way process communication
-    ipcMain.handle("check-master-password", wrap(checkIfMasterPasswordExists));
-    ipcMain.handle("create-master-password", wrap(createMasterPassword));
-    ipcMain.handle("authenticate", wrap(authenticate));
-    ipcMain.handle("saveAccount", wrap(addAccount));
-    ipcMain.handle("getAllAccounts", wrap(getAllAccounts));
-    ipcMain.handle("deleteAccount", wrap(removeAccount));
-    ipcMain.handle("updateAccount", wrap(updateAccount));
+    addHandlers();
   } catch (err) {
     dialog.showErrorBox("Error", err.message);
     app.quit();

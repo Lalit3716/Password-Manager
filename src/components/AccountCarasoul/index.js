@@ -15,8 +15,6 @@ const AccountCarasoul = props => {
     else setCurrent(current - 1);
   }
 
-  console.log(accounts[current]);
-
   return (
     <Card
       elevation={5}

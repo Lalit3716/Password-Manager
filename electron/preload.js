@@ -11,6 +11,8 @@ contextBridge.exposeInMainWorld("db", {
   saveAccount: data => ipcRenderer.invoke("saveAccount", data),
   deleteAccount: id => ipcRenderer.invoke("deleteAccount", id),
   updateAccount: data => ipcRenderer.invoke("updateAccount", data),
+  deleteVault: () => ipcRenderer.invoke("deleteVault"),
+  createVault: () => ipcRenderer.invoke("createVault"),
 });
 
 contextBridge.exposeInMainWorld("electronCrypto", {
