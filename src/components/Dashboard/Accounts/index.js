@@ -1,17 +1,20 @@
 import React, { useContext } from "react";
 
-import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Typography, Stack, Box } from "@mui/material";
 import NewButton from "../../Buttons/NewButton";
 import AccountCarasoul from "../../AccountCarasoul";
 import accountsContext from "../../../context/AccountsContext";
+import SearchBox from "../../SearchBox";
 
 const Accounts = () => {
-  const { accounts, loading } = useContext(accountsContext);
+  const { accounts, loading, searchAccounts } = useContext(accountsContext);
 
   return (
     <Box width="100%" height="100%">
-      <NewButton />
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <NewButton />
+        <SearchBox onChange={searchAccounts} />
+      </Stack>
       {loading && <Typography>Loading...</Typography>}
       {!loading && Object.keys(accounts).length === 0 ? (
         <Typography variant="h6" mt={2}>

@@ -17,7 +17,7 @@ const SideNav = () => {
   const { pathname } = useLocation();
 
   return (
-    <Box height="100vh" bgcolor="grey">
+    <Box height="100vh" bgcolor="grey" minWidth="250px">
       <List>
         <ListItemButton
           onClick={() => navigate("accounts")}
