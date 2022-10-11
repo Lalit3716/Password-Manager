@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "main": "electron/index.js",
+  "description": "A password manager app which securely stores your encrypted passwords on your machine!",
+  "author": {
+    "name": "Lalit Kumar Singh",
+    "email": "lalitkumarsingh5050@gmail.com"
+  },
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
@@ -79,20 +84,6 @@
           "config": {
             "name": "password_manager"
           }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ]
     }
