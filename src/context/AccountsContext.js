@@ -16,7 +16,6 @@ export const AccountsContext = ({ children }) => {
 
   useEffect(() => {
     window.db.getAllAccounts().then(data => {
-      console.log(data);
       const acc = data.map(account => ({
         ...account,
         password: window.electronCrypto.decrypt(account.password, mainPass),

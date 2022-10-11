@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "main": "electron/index.js",
+  "productName": "Password Manager",
+  "homepage": "./",
   "description": "A password manager app which securely stores your encrypted passwords on your machine!",
   "author": {
     "name": "Lalit Kumar Singh",

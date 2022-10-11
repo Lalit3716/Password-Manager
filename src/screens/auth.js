@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import LogoImg from "../assets/logo.jpg";
 import authContext from "../context/AuthContext";
 import { toast } from "react-toastify";
 import {
@@ -53,7 +54,7 @@ const AuthScreen = () => {
       spacing={2}
     >
       <Avatar
-        src="/logo.jpg"
+        src={LogoImg}
         alt="logo"
         sx={{
           width: "200px",
