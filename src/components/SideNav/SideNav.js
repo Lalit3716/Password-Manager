@@ -10,14 +10,14 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { Key, Password } from "@mui/icons-material";
-import { green, red } from "@mui/material/colors";
+import { green, red, grey } from "@mui/material/colors";
 
 const SideNav = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   return (
-    <Box height="100vh" bgcolor="grey" minWidth="250px">
+    <Box height="100vh" bgcolor={grey[200]} minWidth="250px">
       <List>
         <ListItemButton
           onClick={() => navigate("accounts")}

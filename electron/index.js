@@ -1,7 +1,6 @@
 const path = require("path");
 
 const { app, BrowserWindow, dialog, ipcMain } = require("electron");
-const isDev = require("electron-is-dev");
 const {
   connect,
   createTable,
@@ -14,6 +13,7 @@ const {
   updateAccount,
   deleteVault,
 } = require("./db");
+const isDev = require("electron-is-dev");
 const { wrap: catchError } = require("./utils");
 
 const createWindow = () => {
