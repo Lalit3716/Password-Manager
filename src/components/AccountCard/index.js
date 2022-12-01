@@ -54,24 +54,27 @@ const AccountCard = ({ account, index }) => {
   const validateEditData = () => {
     if (!editData.name) {
       toast.error("Name is required");
+      setEditData(account);
       return false;
     }
     if (!editData.email) {
       toast.error("Email is required");
+      setEditData(account);
       return false;
     }
     if (!editData.password) {
       toast.error("Password is required");
+      setEditData(account);
       return false;
     }
     return true;
   };
 
   const onSave = async () => {
-    setEditing(!editing);
-    if (!editing) return;
-
     if (!validateEditData()) return;
+    setEditing(!editing);
+
+    if (!editing) return;
 
     try {
       const email = window.electronCrypto.encrypt(editData.email, mainPass);
