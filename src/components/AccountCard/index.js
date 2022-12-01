@@ -20,6 +20,7 @@ import {
   VisibilityOff,
   Edit,
   Save,
+  Cancel,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import authContext from "../../context/AuthContext";
@@ -102,6 +103,7 @@ const AccountCard = ({ account, index }) => {
           ) : (
             <TextField
               variant="standard"
+              placeholder="Account Name"
               value={editData.name}
               onChange={(e) =>
                 setEditData({ ...editData, name: e.target.value })
@@ -115,6 +117,7 @@ const AccountCard = ({ account, index }) => {
           ) : (
             <TextField
               variant="standard"
+              placeholder="Account Subname"
               value={editData.subName}
               onChange={(e) =>
                 setEditData({ ...editData, subName: e.target.value })
@@ -126,6 +129,7 @@ const AccountCard = ({ account, index }) => {
           ) : (
             <TextField
               variant="standard"
+              placeholder="Email/Username"
               value={editData.email}
               onChange={(e) =>
                 setEditData({ ...editData, email: e.target.value })
@@ -151,6 +155,7 @@ const AccountCard = ({ account, index }) => {
             <Stack>
               <TextField
                 type={visible ? "text" : "password"}
+                placeholder="Password"
                 variant="standard"
                 value={editData.password}
                 onChange={(e) =>
@@ -179,6 +184,15 @@ const AccountCard = ({ account, index }) => {
         <Button startIcon={<Delete />} color="error" onClick={handleDelete}>
           Delete
         </Button>
+        {editing && (
+          <Button
+            startIcon={<Cancel />}
+            color="warning"
+            onClick={() => setEditing(!editing)}
+          >
+            Cancel
+          </Button>
+        )}
         <Button startIcon={editing ? <Save /> : <Edit />} onClick={onSave}>
           {editing ? "Save" : "Edit"}
         </Button>
