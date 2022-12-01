@@ -1,3 +1,20 @@
 body {
   overflow-x: hidden;
 }
+
+.password-display::-webkit-scrollbar {
+  height: 0.2rem;
+}
+
+.password-display::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.password-display::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background: #888;
+}
+
+.password-display::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -11,7 +11,7 @@ const Dashboard = () => {
     <Box height="100vh" width="100vw" display="flex">
       <SideNav />
       <LogoutButton />
-      <Box flexGrow={1} height="100%" p={3}>
+      <Box flexGrow={1} height="100%" pl={35} py={3}>
         <AccountsContext>
           <Outlet />
         </AccountsContext>

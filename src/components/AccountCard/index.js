@@ -42,7 +42,7 @@ const AccountCard = ({ account, index }) => {
     }
   };
 
-  const hide = password => {
+  const hide = (password) => {
     return password.replace(/./g, "*");
   };
 
@@ -103,7 +103,9 @@ const AccountCard = ({ account, index }) => {
             <TextField
               variant="standard"
               value={editData.name}
-              onChange={e => setEditData({ ...editData, name: e.target.value })}
+              onChange={(e) =>
+                setEditData({ ...editData, name: e.target.value })
+              }
             />
           )}
           {!editing ? (
@@ -114,7 +116,7 @@ const AccountCard = ({ account, index }) => {
             <TextField
               variant="standard"
               value={editData.subName}
-              onChange={e =>
+              onChange={(e) =>
                 setEditData({ ...editData, subName: e.target.value })
               }
             />
@@ -125,7 +127,7 @@ const AccountCard = ({ account, index }) => {
             <TextField
               variant="standard"
               value={editData.email}
-              onChange={e =>
+              onChange={(e) =>
                 setEditData({ ...editData, email: e.target.value })
               }
             />
@@ -133,7 +135,11 @@ const AccountCard = ({ account, index }) => {
         </Stack>
         {!editing ? (
           <Stack direction="row" spacing={2} alignItems="center">
-            <Typography variant="body1">
+            <Typography
+              className="password-display"
+              variant="body1"
+              overflow="auto"
+            >
               {visible ? account.password : hide(account.password)}
             </Typography>
             <IconButton onClick={() => setVisible(!visible)}>
@@ -147,12 +153,12 @@ const AccountCard = ({ account, index }) => {
                 type={visible ? "text" : "password"}
                 variant="standard"
                 value={editData.password}
-                onChange={e =>
+                onChange={(e) =>
                   setEditData({ ...editData, password: e.target.value })
                 }
                 InputProps={{
                   endAdornment: (
-                    <IconButton onClick={() => setVisible(prev => !prev)}>
+                    <IconButton onClick={() => setVisible((prev) => !prev)}>
                       {visible ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   ),
